@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible"
+    content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da velha</title>
+    <link rel="shortcut icon" href="../../imagens/barra_png.png" type="image/x-icon">
+
+    <style>
+        @-webkit-keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; } 
+            }
+            @-moz-keyframes fadeIn {
+            0% { opacity: 0;}
+            100% { opacity: 1; }
+            }
+            @-o-keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+            }
+            @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+            }
+            .fadeIn {
+            -webkit-animation: fadeIn 0.5s ease-in-out;
+            -moz-animation: fadeIn 0.5s ease-in-out;
+            -o-animation: fadeIn 0.5s ease-in-out;
+            animation: fadeIn 0.5s ease-in-out;
+            }
+        
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            background-image: url(../../imagens/wallpaperazul.png);
+            background-size: cover;
+        }
+        input{
+            background-color: white;
+            font-size: 80px;
+            width: 150px;
+            height: 150px;
+            color: white;
+        }
+        #reini{
+            margin-top: 15px;
+            width: 150px;
+            height: 80px;
+            display: inline-block;
+            padding-right: 82px;
+        }
+        #reini2{
+            width: 150px;
+            height: 80px;
+            color: black;
+            background-color: white;
+            font-size: 20px;
+        }
+        #player{
+            display: inline;
+        }
+        .qua{
+            width: 150px;
+            height: 150px;
+            display: inline-block;
+            margin: 3px;
+        }
+        #geral{
+            width: 480px;
+            height: 470px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        #menu{
+            padding-left: 83px;
+            margin-top: 15px;
+            width: 150px;
+            height: 80px;
+            display: inline-block;
+        }
+        #menu2{
+            width: 150px;
+            height: 80px;
+            color: black;
+            background-color: white;
+            font-size: 20px;
+        }
+        #jogador{
+            font-size: 45px;
+        }
+        h1{
+            display: inline-block;
+        }
+
+        #musiga{
+            display: inline;
+        }
+
+        #audiodiv{
+            text-align: center;
+            padding-top: 100px;
+        }
+
+        #trocar1{
+            display: inline-block;
+            border-style: solid;
+            padding: 3px 10px;
+            background-color: lightgray;
+            margin-right: 30px;
+            margin-top: 5px;
+            border-radius: 15px;
+        }
+
+        #trocar2{
+            display: inline-block;
+            border-style: solid;
+            padding: 3px 10px;
+            background-color: lightgray;
+            margin-left: 30px;
+            margin-top: 5px;
+            border-radius: 15px;
+        }
+
+        #trocar1:hover{
+            background-color: rgb(180, 180, 180);
+        }
+        #trocar2:hover{
+            background-color: rgb(180, 180, 180);
+        }
+        #trocar1:active{
+            background-color: rgb(110, 110, 110);
+        }
+        #trocar2:active{
+            background-color: rgb(110, 110, 110);
+        }
+
+
+    </style>
+</head>
+
+<body class="fadeIn">
+    <h1><span id="jogador2">É a vez do </span></h1>
+    <h1><span id="jogador">X</span></h1>
+
+    <div id="geral">
+        <div class="qua"> <input type="button" value="." id="qua0"></div>
+        <div class="qua"> <input type="button" value="." id="qua1" ></div>
+        <div class="qua"> <input type="button" value="." id="qua2" ></div>
+        <div class="qua"> <input type="button" value="." id="qua3" ></div>
+        <div class="qua"> <input type="button" value="." id="qua4" ></div>
+        <div class="qua"> <input type="button" value="." id="qua5" ></div>
+        <div class="qua"> <input type="button" value="." id="qua6" ></div>
+        <div class="qua"> <input type="button" value="." id="qua7" ></div>
+        <div class="qua"> <input type="button" value="." id="qua8" ></div>
+    </div>
+    
+    <div id="reini"> <input type="button" value="Reiniciar" id="reini2" onmouseover="reiniover()" onmouseout="reiniout()"> </div>
+    
+    <div id="menu"> <input type="button" value="Menu" id="menu2" onclick="voltar()" onmouseover="menuover()" onmouseout="menuout()"> </div>
+
+    <div id="audiodiv">
+        <audio id="musiga" controls autoplay loop src="../../músicas/Weasel.mp3" type="audio/mpeg" id="som1"></audio>
+    </div>
+
+    <div id="trocar1">Música 1</div>
+
+    <div id="trocar2">Música 2</div>
+
+    <script>
+        //Guardando as coisas q vai usar
+       
+        const campos = document.getElementsByTagName('input'); //os 9 quadrados
+        const btnReini = document.getElementById('reini2'); //o botão de reiniciar
+        const vez = document.getElementById('jogador'); //escrito pra definir a vez de cada um
+        const vez2 = document.getElementById('jogador2');
+
+        //variavel pra definir quem é o jogador da vez
+        var jogador = 'X';
+        var vencedor = '.';
+        var finish;
+
+        //funções pra mudar a vez
+        for(var i=0;i<9;i++) {
+            campos[i].addEventListener('click', (event) => {
+                if( (event.target.value=='.') && (vencedor=='.')) {
+            
+                    event.target.value=jogador; //prenche a casa
+                    event.target.style.color='#000000'; //o valor era branco aí n ia dar pra enxergar kkk
+                    event.target.style.backgroundColor='#FFFFFF';
+
+
+                    mudarvez(); //função pra mudar de X pra O
+                    vencedor = ganhou(); //função q foi criada ali na frente pra definir qm ganhou
+                    
+
+                    if(vencedor=='a') {
+                        vez2.innerText='';
+                        vez.innerText='Empate!';
+                    }
+                    else if(vencedor!='.' && vencedor!='a') {
+                        vez2.innerText='';
+                        vez.innerText=`${vencedor} venceu!`;
+                    }
+                    
+                    
+                }
+                
+            });
+        }
+
+        //função para mudar a cor das casas ao passar o mouse em cima
+        for(var i=0;i<9;i++) {
+            campos[i].addEventListener('mouseover', (event) => {    
+                if( (event.target.value=='.') && (vencedor=='.')) {
+                    event.target.style.backgroundColor='#e8e8e8';
+                    event.target.style.color='#e8e8e8';
+                }
+                  
+            });
+        }
+        //função para voltar a cor da casa ao retirar o mouse de cima
+        for(var i=0;i<9;i++) {
+            campos[i].addEventListener('mouseout', (event) => {    
+                if( (event.target.value=='.') && (vencedor=='.')) {
+                    event.target.style.backgroundColor='#FFFFFF';
+                    event.target.style.color='#FFFFFF';
+                }
+                  
+            });
+        }
+
+        //botão reiniciar
+        btnReini.addEventListener('click', (event) => {
+            for(var i=0;i<9;i++) {
+                campos[i].value='.'; //limpa as casa
+                campos[i].style.color='#FFFFFF'; //o valor . fica branco (invisivel no botão)
+                campos[i].style.backgroundColor='#FFFFFF'; //fundo vira branco
+                vez2.innerText='É a vez do';
+                btnReini.style.backgroundColor='#FFFFFF';
+            }
+            vencedor = '.'; //reseta o vencedor
+
+            sortearJogador();
+            
+        });
+
+        //definir aleatoriamente qm vai jogar primeiro
+        var sortearJogador = function() {
+            if(Math.floor(Math.random() * 2)==0) {
+                jogador = "O"; //coloca o O como atual
+                vez.innerText="O"; //mostra quem é o atual
+                vez.style.color='#000000'; //muda a cor do texto
+            }else{
+                jogador = "X"; //coloca o O como atual
+                vez.innerText="X"; //mostra quem é o atual
+                vez.style.color='#000000'; //muda a cor do texto
+            }
+        }
+       
+        //função pra mudar a vez do X e do O
+        var mudarvez = function() {
+            if(jogador=='X') {
+                jogador='O';
+                vez.innerText='O';
+                vez.style.color='#000000';
+            }else{
+                jogador='X';
+                vez.innerText='X';
+                vez.style.color='#000000';
+            }
+        }
+
+        //definindo como identificar a vitoria e empate usando o número de casas e suas posições
+        var ganhou = function() {
+            if((campos[0].value==campos[1].value) && (campos[1].value==campos[2].value) && campos[0].value!='.') {
+                campos[0].style.backgroundColor='#00FF00';
+                campos[1].style.backgroundColor='#00FF00';
+                campos[2].style.backgroundColor='#00FF00';
+                return campos[0].value;
+            }
+            else if((campos[3].value==campos[4].value) && (campos[4].value==campos[5].value) && campos[3].value!='.') {
+                campos[3].style.backgroundColor='#00FF00';
+                campos[4].style.backgroundColor='#00FF00';
+                campos[5].style.backgroundColor='#00FF00';
+                return campos[3].value;
+            }
+            else if((campos[6].value==campos[7].value) && (campos[7].value==campos[8].value) && campos[6].value!='.') {
+                campos[6].style.backgroundColor='#00FF00';
+                campos[7].style.backgroundColor='#00FF00';
+                campos[8].style.backgroundColor='#00FF00';
+                return campos[6].value;
+            }
+            else if((campos[0].value==campos[3].value) && (campos[3].value==campos[6].value) && campos[0].value!='.') {
+                campos[0].style.backgroundColor='#00FF00';
+                campos[3].style.backgroundColor='#00FF00';
+                campos[6].style.backgroundColor='#00FF00';
+                return campos[0].value;
+            }
+            else if((campos[1].value==campos[4].value) && (campos[4].value==campos[7].value) && campos[1].value!='.') {
+                campos[1].style.backgroundColor='#00FF00';
+                campos[4].style.backgroundColor='#00FF00';
+                campos[7].style.backgroundColor='#00FF00';
+                return campos[1].value;
+            }
+            else if((campos[2].value==campos[5].value) && (campos[5].value==campos[8].value) && campos[2].value!='.') {
+                campos[2].style.backgroundColor='#00FF00';
+                campos[5].style.backgroundColor='#00FF00';
+                campos[8].style.backgroundColor='#00FF00';
+                return campos[2].value;
+            }
+            else if((campos[0].value==campos[4].value) && (campos[4].value==campos[8].value) && campos[0].value!='.') {
+                campos[0].style.backgroundColor='#00FF00';
+                campos[4].style.backgroundColor='#00FF00';
+                campos[8].style.backgroundColor='#00FF00';
+                return campos[0].value;
+            }
+            else if((campos[2].value==campos[4].value) && (campos[4].value==campos[6].value) && campos[2].value!='.') {
+                campos[2].style.backgroundColor='#00FF00';
+                campos[4].style.backgroundColor='#00FF00';
+                campos[6].style.backgroundColor='#00FF00';
+                return campos[2].value;
+            }
+            else if((campos[0].value!='.') && (campos[1].value!='.') && (campos[2].value!='.') && (campos[3].value!='.') && (campos[4].value!='.') && (campos[5].value!='.') && (campos[6].value!='.') && (campos[7].value!='.') && (campos[8].value!='.') ){
+                campos[0].style.backgroundColor='#B22222';
+                campos[1].style.backgroundColor='#B22222';
+                campos[2].style.backgroundColor='#B22222';
+                campos[3].style.backgroundColor='#B22222';
+                campos[4].style.backgroundColor='#B22222';
+                campos[5].style.backgroundColor='#B22222';
+                campos[6].style.backgroundColor='#B22222';
+                campos[7].style.backgroundColor='#B22222';
+                campos[8].style.backgroundColor='#B22222';
+                return 'a';
+            }
+        return '.';
+        }
+
+        //função do botão menu
+        function voltar() {
+            window.location.href = "Menu.html";
+        }
+
+
+        function reiniover(){
+            var reiniover1 = window.document.getElementById("reini2");
+            reiniover1.style.borderWidth='4px';
+            reiniover1.style.backgroundColor='#F8F8FF';
+        }
+
+        function reiniout(){
+            var reiniout1 = window.document.getElementById("reini2");
+            reiniout1.style.borderWidth='2px';
+            reiniout1.style.backgroundColor='#FFFFFF';
+        }
+
+        function menuover(){
+            var menuover1 = window.document.getElementById("menu2");
+            menuover1.style.borderWidth='4px';
+            menuover1.style.backgroundColor='#F8F8FF'; 
+        }
+
+        function menuout(){
+            var menuout1 = window.document.getElementById("menu2");
+            menuout1.style.borderWidth='2px';
+            menuout1.style.backgroundColor='#FFFFFF';
+        }
+
+
+        //tudo relacionado a música
+        var musics = document.getElementById("musiga");
+        var troca = document.getElementById("trocar1");
+        var troca2 = document.getElementById("trocar2");
+        
+        troca.addEventListener("click", function() {
+        musics.src = "../../músicas/Duck.mp3";
+        musics.play();
+        });
+
+        troca2.addEventListener("click", function() {
+        musics.src = "../../músicas/Weasel.mp3";
+        musics.play();
+        });
+    </script>
+
+</body>
+</html>

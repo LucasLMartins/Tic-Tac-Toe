@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="shortcut icon" href="imagens/barra_png.png" type="image/x-icon">
+    <title>Jogo da Velha</title>
+
+    <style>
+    body{
+        
+        background-image: url(imagens/wallpaperbranco.png);
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        
+        
+    }
+
+    
+    img{
+        
+        width: 100%;
+        height: auto;
+        
+    }
+
+    #veia1{
+        text-align: center;
+    }
+
+    #veia{
+        text-align: center;
+        margin: 8% auto;
+        width: 80%;
+        height: auto;
+    }
+
+    
+    @-webkit-keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; } 
+        }
+        @-moz-keyframes fadeIn {
+        0% { opacity: 0;}
+        100% { opacity: 1; }
+        }
+        @-o-keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+        }
+        @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+        }
+        .fadeIn {
+        -webkit-animation: fadeIn 2s ease-in-out;
+        -moz-animation: fadeIn 2s ease-in-out;
+        -o-animation: fadeIn 2s ease-in-out;
+        animation: fadeIn 2s ease-in-out;
+        }
+    /*window.location.href = 'Menu.html'*/
+    </style>
+    </head>
+
+    <body onclick="clicar()">
+        <div id="veia">
+        <img class="fadeIn" align="center" src="imagens/inicioaa.png" id="veia1">
+        </div>
+        <script>
+            function clicar(){
+                var q1 = window.location.href = 'Html/Menu.html';
+
+            }
+        </script>
+    </body> 
+
+</html>
