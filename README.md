@@ -1,10 +1,10 @@
-# Jogo da velha
-Um simples jogo da velha, desenvolvido para um trabalho da faculdade Unibrasil.  
+# Tic-Tac-Toe
+A simple tic-tac-toe game developed for a Unibrasil college assignment.  
    
-<sup>Esse foi o meu primeiro projeto desenvolvido na vida, apesar de ser bem simples, para o primeiro período da faculdade até que está bom😆</sup>  
-#### [Clique aqui para jogar](https://lucaslmartins.github.io/Jogo-da-velha/)
+<sup>This was my first project ever developed, although it's very simple, for the first semester of college it's not bad 😆</sup>  
+#### [Click here to play](https://lucaslmartins.github.io/Jogo-da-velha/)
 
-### Tecnologias Utilizadas
+### Technologies
 
 - HTML
 - CSS
